@@ -1,0 +1,14 @@
+node_modules/
+build/
+dist/
+coverage/
+target/
+**/target/
+.DS_Store
+*.log
+.env
+.env.*
+!.env.example
+*.bak
+start-backend.ps1
+

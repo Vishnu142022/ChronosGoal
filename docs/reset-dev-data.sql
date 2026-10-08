@@ -1,0 +1,20 @@
+-- Development-only examples. Review the selected account before executing.
+-- Deleting a USER removes that account's goals, goal steps, time logs, habits,
+-- habit logs, and tasks through the schema's ON DELETE CASCADE foreign keys.
+-- Related usage events and audit references follow their configured FK rules.
+--
+-- START TRANSACTION;
+-- DELETE FROM users
+-- WHERE id = 'replace-with-test-user-id'
+--   AND role = 'USER';
+-- COMMIT;
+--
+-- Or select a test account by email:
+-- START TRANSACTION;
+-- DELETE FROM users
+-- WHERE email = 'replace-with-test-user@example.invalid'
+--   AND role = 'USER';
+-- COMMIT;
+--
+-- These statements are intentionally commented and are never run by the app.
+
