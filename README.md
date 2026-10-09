@@ -181,14 +181,21 @@ npm run build
 
 The unit tests run without MySQL. The Java endpoints require a running MySQL database with the supplied schema for end-to-end validation. Password recovery is visibly marked unavailable until an email delivery service is configured.
 
-## GitHub submission
+## GitHub Submission
 
-Initialize a Git repository if needed, create a public repository or grant reviewer access, and push the project without `.env`, credentials, local databases, or generated directories. Replace the placeholder URL below with the repository URL you created, then provide that URL in the submission form:
+ChronosGoal source code is hosted on GitHub:
 
-```powershell
-git remote add origin <your-repository-url>
-git push -u origin main
-```
+**Repository:** https://github.com/Vishnu142022/ChronosGoal
 
-Do not include real passwords, API keys, or personal data in the repository or screenshots.
+The repository contains the application source code, Java backend, database schema, documentation, and application screenshots.
 
+### Security Notes
+
+- Do not commit `.env` files, database passwords, API keys, or other secrets.
+- Do not commit local database files, generated build artifacts, or machine-specific configuration.
+- Configure database credentials and administrator credentials through environment variables when running the application.
+- Ensure that screenshots do not expose personal information or credentials.
+
+### Reviewer Access
+
+The repository should be public or the reviewer should be granted access before submission.
