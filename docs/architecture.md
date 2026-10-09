@@ -11,7 +11,5 @@ flowchart LR
     DAOs --> MySQL[("MySQL 8")]
 ```
 
-The browser retains the existing interface. Authenticated ownership and administrator authorization are enforced by the servlet layer using the server-side session.
 
-The task and habit APIs persist user-owned records through `TaskDAO` and `HabitDAO`; habit updates and date-history replacement run transactionally. `InsightsServlet` delegates summary, streak, and consistency calculations to `InsightsReportService`, which reads time-log and habit-log data through the insights DAO. The user id for each operation comes from the authenticated session, not request parameters.
-
+The diagram illustrates the request flow from the React frontend through the development server proxy and Java Servlet backend to the MySQL database. Session and role filters protect requests, while servlets, services, and JDBC DAOs handle application logic and database access.
