@@ -52,66 +52,106 @@ server.ts         Frontend development server and Java API proxy
 
 ## Database setup
 
-1. Start MySQL and create the schema, tables, indexes, foreign keys, and progress triggers:
+Start MySQL before configuring the application database.
 
-   ```sql
-   SOURCE C:/path/to/chronosgoal---time-management-and-goal-setting-system/backend/src/main/resources/db/schema.sql;
-   ```
+### Option 1: MySQL Workbench (Recommended)
 
-   Run that command from the MySQL client. The script creates the `discipline_os_db` database if needed.
+1. Open MySQL Workbench and connect to your MySQL server.
+2. Select **File → Open SQL Script**.
+3. Open `backend/src/main/resources/db/schema.sql` from your project folder.
+4. Execute the script using the lightning bolt button.
 
-2. Provide the database and administrator bootstrap variables in the environment used to start Tomcat. The project-local `start-backend.ps1` launcher prompts for these values securely and starts Tomcat with them. For a manual setup, use a trusted secret manager or launcher to provide `DB_URL`, `DB_USER`, `DB_PASSWORD`, `ADMIN_EMAIL`, and `ADMIN_PASSWORD` to the Tomcat process; do not place secret values in command history or source control.
+The script creates the `discipline_os_db` database, tables, indexes, foreign keys, and progress triggers if they are not already present.
 
-   The Java backend requires `DB_USER` and `DB_PASSWORD` (and reads `DB_URL`, defaulting only to the local database URL), or matching Java system properties. Create a least-privileged MySQL account instead of using `root`. The initial administrator is created on its first successful admin sign-in when the configured credentials are supplied. Keep secrets out of source control. There is no default demo login.
+### Option 2: MySQL Command-Line Client
+
+You can also execute the schema script using the MySQL command-line client. Replace the example path below with the actual absolute path to your project's `schema.sql` file.
+
+```sql
+SOURCE C:/your/actual/project/path/backend/src/main/resources/db/schema.sql;
+```
+
+Use forward slashes in the path. The example path is a placeholder and must be replaced before execution.
+
+### Database credentials
+
+The Java backend requires `DB_USER` and `DB_PASSWORD`. It reads `DB_URL` from the environment or uses the configured local database URL as its default.
+
+Use a dedicated, least-privileged MySQL account instead of `root`. Provide `DB_URL`, `DB_USER`, and `DB_PASSWORD` to the Tomcat process through environment variables or a trusted configuration mechanism. Do not expose passwords in command history, documentation, or source control.
+
+The `start-backend.ps1` launcher prompts for the required administrator and database credentials and starts Tomcat with its configured environment.
 
 ## Default setup
 
-The application does not ship with an administrator account or hard-coded credentials. Set `ADMIN_EMAIL` and `ADMIN_PASSWORD` in the environment used to run Tomcat; the first matching admin sign-in bootstraps the account. Set `DB_URL`, `DB_USER`, and `DB_PASSWORD` for the MySQL connection as shown above. Do not commit `.env` files or real credentials; `.env.example` contains configuration names only.
+ChronosGoal does not ship with a default administrator account or hard-coded login credentials. Configure `ADMIN_EMAIL` and `ADMIN_PASSWORD` for the Tomcat process. The administrator account is bootstrapped on the first successful administrator sign-in using the configured credentials.
+
+Configure `DB_URL`, `DB_USER`, and `DB_PASSWORD` as described above. The `.env.example` file contains configuration names only; never commit real credentials or secret values.
 
 ## Run the backend
 
-The `start-backend.ps1` launcher prompts for the administrator email, MySQL database password, and administrator password. It then runs the Maven test suite, builds the WAR file, deploys it to the configured Tomcat installation, and starts Tomcat in the foreground. Keep all credentials private and never commit them to source control.
+From the project root, run the project-local PowerShell launcher:
 
-The launcher uses local JDK and Tomcat paths, so update its configuration if your installation differs. Successful startup confirms that the WAR has been deployed and Tomcat is listening. After startup, verify database connectivity by logging in through the running application and checking that saved data loads correctly.
+```powershell
+.\start-backend.ps1
+```
 
-Keep the backend terminal running while testing the application. Start the frontend separately using `npm run dev`.
+The launcher prompts for the administrator email, MySQL database password, and administrator password. It runs the Maven test suite, builds the WAR file, deploys it to the configured Tomcat installation, and starts Tomcat in the foreground.
+
+The launcher uses local JDK and Tomcat paths. Update its configuration if your installation differs. Keep the backend terminal running while testing the application.
+
+Successful startup confirms that the WAR has been deployed and Tomcat is listening. Verify the integration by logging in through the running application and checking that saved data loads correctly.
+
+Keep all credentials private and never commit them to source control.
 
 ## Run the frontend
 
-Install frontend dependencies and run the existing interface:
+Open a second terminal in the project root and run:
 
 ```powershell
 npm ci
 npm run dev
 ```
 
-Open `http://localhost:3000`. Requests to `/api` are proxied to the Java web application. To change the frontend API base, set `VITE_API_BASE_URL` before starting the frontend.
+Open `http://localhost:3000` in your browser. Requests to `/api` are proxied to the Java backend.
 
-For a frontend production build, run `npm run build`. Configure the production server and Tomcat proxy to use the same `/api` contract.
+For a production frontend build, run:
+
+```powershell
+npm run build
+```
+
+Configure the production server and Tomcat proxy to use the same `/api` contract.
 
 ## API overview
 
-| Method | Endpoint | Purpose |
-| --- | --- | --- |
-| `POST` | `/api/register` | Create an account and start its session |
-| `POST` | `/api/login` | Authenticate a user |
-| `POST` | `/api/admin-login` | Authenticate an administrator |
-| `GET` | `/api/auth/me` | Restore the active session |
-| `GET`, `POST` | `/api/goals` | List and create the session owner's goals |
-| `PUT`, `DELETE` | `/api/goals/{id}` | Update or delete an owned goal |
-| `GET` | `/api/goal-steps/steps?goalId={id}` | List steps for an owned goal |
-| `POST` | `/api/goal-steps/steps` | Create a step using form parameters `goalId`, `title`, optional `deadline`, and `stepOrder` |
-| `POST`, `DELETE` | `/api/goal-steps/{goalId}/steps/{stepId}...` | Toggle completion or delete a step under an owned goal |
-| `GET`, `POST` | `/api/time-logs` | List or record the session owner's time |
-| `PUT`, `DELETE` | `/api/time-logs?id={id}` | Update or delete an owned time log |
-| `GET`, `POST`, `PUT`, `DELETE` | `/api/tasks...` | Session-owned task CRUD and completion toggle |
-| `GET`, `POST`, `PUT`, `DELETE` | `/api/habits...` | Session-owned habit CRUD, date toggles, and freeze marker |
-| `GET` | `/api/insights/{summary,consistency,streaks,leaderboard}` | Habit consistency and streak analytics, plus tracked-time summary |
-| `GET` | `/api/admin/dashboard` | Concurrent admin summary, users, parameters, usage, and audit report |
-| `GET`, `POST`, `PUT`, `DELETE` | `/api/admin/...` | Admin-only account and goal-parameter operations |
+ChronosGoal exposes REST API endpoints for authentication, goal management, time tracking, tasks, habits, insights, and administrator operations.
 
-All protected endpoints use the server-side HTTP session. User goal and time-log queries derive ownership from that session rather than trusting a user ID supplied by the browser.
-Time-log updates send JSON; the servlet reads and validates the JSON body for `PUT`.
+| Method | Endpoint | Purpose |
+|---|---|---|
+| POST | `/api/register` | Register a user and start a session |
+| POST | `/api/login` | Authenticate a user |
+| POST | `/api/admin-login` | Authenticate an administrator |
+| GET | `/api/auth/me` | Restore the active session |
+| GET, POST | `/api/goals` | List and create goals for the authenticated user |
+| PUT, DELETE | `/api/goals/{id}` | Update or delete an owned goal |
+| GET | `/api/goal-steps/steps?goalId={id}` | List steps for an owned goal |
+| POST | `/api/goal-steps/steps` | Create a goal step using `goalId`, `title`, optional `deadline`, and `stepOrder` form parameters |
+| POST, DELETE | `/api/goal-steps/{goalId}/steps/{stepId}...` | Toggle step completion or delete a step under an owned goal |
+| GET, POST | `/api/time-logs` | List or record the authenticated user's time logs |
+| PUT, DELETE | `/api/time-logs?id={id}` | Update or delete an owned time log |
+| GET, POST, PUT, DELETE | `/api/tasks...` | Manage personal tasks, including completion toggles |
+| GET, POST, PUT, DELETE | `/api/habits...` | Manage personal habits, daily history, and freeze markers |
+| GET | `/api/insights/{summary,consistency,streaks,leaderboard}` | Retrieve tracked-time summaries, habit consistency, streaks, and leaderboard data |
+| GET | `/api/admin/dashboard` | Retrieve administrator dashboard reports, user information, parameters, usage, and audit data |
+| GET, POST, PUT, DELETE | `/api/admin/...` | Perform administrator-only account and goal-parameter operations |
+
+### Authentication and data protection
+
+Protected endpoints use server-side HTTP sessions. User-specific goal and time-log operations derive ownership from the authenticated session instead of trusting a user ID supplied by the browser.
+
+Time-log update requests use JSON, which the backend servlet reads and validates. Goal-step creation uses form parameters as described above.
+
+The endpoint patterns marked with `...` summarize route groups rather than specifying every individual route. Refer to the corresponding backend servlet implementations for exact paths, supported HTTP methods, request formats, and response structures.
 
 ## Design and rubric mapping
 
