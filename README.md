@@ -135,8 +135,6 @@ The project does not include hard-coded demo credentials or screenshots of a run
 
 ## Screenshots
 
-## Screenshots
-
 The following screenshots demonstrate ChronosGoal's user interface and core features.
 
 ### Today Dashboard
