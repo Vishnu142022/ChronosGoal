@@ -131,8 +131,6 @@ Time-log updates send JSON; the servlet reads and validates the JSON body for `P
 - [Database ER diagram](docs/database-erd.md)
 - [User and administrator flows](docs/workflows.md)
 
-The project does not include hard-coded demo credentials or screenshots of a running database-backed instance. Capture screenshots after deploying with your own configured account and database.
-
 ## Screenshots
 
 The following screenshots demonstrate ChronosGoal's user interface and core features.
