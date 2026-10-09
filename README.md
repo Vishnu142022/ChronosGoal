@@ -135,12 +135,27 @@ The project does not include hard-coded demo credentials or screenshots of a run
 
 ## Screenshots
 
-Screenshots are intentionally not bundled because they may expose personal account data. Add sanitized application screenshots here after running the project against your own database.
+## Screenshots
 
-<!-- Replace these placeholders with real, sanitized captures before submission. -->
-- User dashboard: _capture after a successful configured login._
-- Goals and progress: _capture a goal with tracked progress._
-- Admin dashboard: _capture using a configured administrator account._
+The following screenshots demonstrate ChronosGoal's user interface and core features.
+
+### Today Dashboard
+![Today Dashboard](docs/screenshots/today.png)
+
+### Habit Tracking
+![Habit Tracking](docs/screenshots/habits.png)
+
+### Task Management
+![Task Management](docs/screenshots/tasks.png)
+
+### Goal Management
+![Goal Management](docs/screenshots/goals.png)
+
+### Time Tracking
+![Time Tracking](docs/screenshots/time-tracking.png)
+
+### Insights and Analytics
+![Insights and Analytics](docs/screenshots/insights.png)
 
 ## How to run the tests
 
