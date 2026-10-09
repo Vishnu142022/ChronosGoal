@@ -70,15 +70,11 @@ The application does not ship with an administrator account or hard-coded creden
 
 ## Run the backend
 
-The machine-specific PowerShell launcher prompts for the database and admin credentials without echoing the passwords, builds and verifies the WAR, deploys it to the configured Tomcat, and starts Tomcat in the foreground. Stop any existing service using port 8080 before running it:
+The `start-backend.ps1` launcher prompts for the administrator email, MySQL database password, and administrator password. It then runs the Maven test suite, builds the WAR file, deploys it to the configured Tomcat installation, and starts Tomcat in the foreground. Keep all credentials private and never commit them to source control.
 
-```powershell
-.\start-backend.ps1
-```
+The launcher uses local JDK and Tomcat paths, so update its configuration if your installation differs. Successful startup confirms that the WAR has been deployed and Tomcat is listening. After startup, verify database connectivity by logging in through the running application and checking that saved data loads correctly.
 
-The launcher is ignored by Git because it contains local JDK and Tomcat paths. Update those paths in the local script if your installation differs. It uses `DB_URL` for `discipline_os_db` and `DB_USER=discipline_app`; set the required database privileges before use. The first admin sign-in creates an administrator only when both submitted credentials match the configured `ADMIN_EMAIL` and `ADMIN_PASSWORD`. The default frontend proxy expects Tomcat at `http://127.0.0.1:8080` and the deployed context `/discipline-os-backend`.
-
-The backend requires MySQL with the supplied schema and the environment variables described above.
+Keep the backend terminal running while testing the application. Start the frontend separately using `npm run dev`.
 
 ## Run the frontend
 
