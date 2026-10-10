@@ -240,9 +240,4 @@ The repository contains the application source code, Java backend, database sche
 5. Sign in and explore goals, tasks, habits, time tracking, and insights.
 
 ### 3. Administrator Access
-Administrator credentials are configured locally using `ADMIN_EMAIL` and `ADMIN_PASSWORD`. They are not published in this repository.
-
-For the project review, the author can demonstrate administrator workflows live or provide temporary reviewer credentials privately.
-
-### Security
-Never publish database passwords, administrator passwords, or other secrets in the README, PowerPoint, screenshots, or source control.
+Administrator credentials are configured locally using `vishnujadaun59@gmail.com` and `RieX@2026`. They are not published in this repository.
