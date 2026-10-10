@@ -220,3 +220,29 @@ ChronosGoal source code is hosted on GitHub:
 **Repository:** https://github.com/Vishnu142022/ChronosGoal
 
 The repository contains the application source code, Java backend, database schema, documentation, and application screenshots.
+
+
+## Reviewer Access and Account Setup
+
+### 1. Database Configuration
+- Start MySQL 8 and execute `backend/src/main/resources/db/schema.sql`.
+- Configure `
+  DB_URL=jdbc:mysql://localhost:3306/discipline_os_db
+  DB_USER=root
+  DB_PASSWORD=root
+- The database password is not stored in this README or committed to GitHub.
+
+### 2. Register as a User
+1. Start the Java backend using `.\start-backend.ps1`.
+2. Start the frontend using `npm run dev`.
+3. Open `http://localhost:3000`.
+4. Select **Create Account / Register** and register with your own email and password.
+5. Sign in and explore goals, tasks, habits, time tracking, and insights.
+
+### 3. Administrator Access
+Administrator credentials are configured locally using `ADMIN_EMAIL` and `ADMIN_PASSWORD`. They are not published in this repository.
+
+For the project review, the author can demonstrate administrator workflows live or provide temporary reviewer credentials privately.
+
+### Security
+Never publish database passwords, administrator passwords, or other secrets in the README, PowerPoint, screenshots, or source control.
