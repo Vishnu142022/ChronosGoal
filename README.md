@@ -220,14 +220,3 @@ ChronosGoal source code is hosted on GitHub:
 **Repository:** https://github.com/Vishnu142022/ChronosGoal
 
 The repository contains the application source code, Java backend, database schema, documentation, and application screenshots.
-
-### Security Notes
-
-- Do not commit `.env` files, database passwords, API keys, or other secrets.
-- Do not commit local database files, generated build artifacts, or machine-specific configuration.
-- Configure database credentials and administrator credentials through environment variables when running the application.
-- Ensure that screenshots do not expose personal information or credentials.
-
-### Reviewer Access
-
-The repository should be public or the reviewer should be granted access before submission.
