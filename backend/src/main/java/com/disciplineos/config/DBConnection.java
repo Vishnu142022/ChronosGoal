@@ -41,9 +41,21 @@ public final class DBConnection {
 
     private static String requiredSetting(String name, String defaultValue)
             throws SQLException {
-        String value = System.getProperty(name);
+        return requiredSetting(
+                name,
+                System.getProperty(name),
+                System.getenv(name),
+                defaultValue);
+    }
+
+    static String requiredSetting(
+            String name,
+            String systemProperty,
+            String environmentValue,
+            String defaultValue) throws SQLException {
+        String value = systemProperty;
         if (value == null || value.isBlank()) {
-            value = System.getenv(name);
+            value = environmentValue;
         }
         if (value == null || value.isBlank()) {
             value = defaultValue;
@@ -55,4 +67,3 @@ public final class DBConnection {
         return value;
     }
 }
-

@@ -10,5 +10,3 @@ target/
 .env.*
 !.env.example
 *.bak
-start-backend.ps1
-
